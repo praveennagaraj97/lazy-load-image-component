@@ -1,0 +1,11 @@
+<div
+  class="loadable-image_container"
+  [ngStyle]="{ width: imageWidth + 'px', height: imageHeight + 'px' }"
+>
+  <app-loader
+    [loaderFitHeight]="imageHeight"
+    [loaderFitWidth]="imageWidth"
+    *ngIf="!imageLoaded"
+  ></app-loader>
+  <img [src]="imageSrc" #imageTag (load)="imageLoadedEvent()" />
+</div>

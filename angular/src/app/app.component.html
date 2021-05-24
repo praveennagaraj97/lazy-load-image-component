@@ -1,0 +1,16 @@
+<!-- <main class="addons">
+  <div class="addons-list_slider-container">
+    <app-addons></app-addons>
+  </div>
+  <div class="selected-addon-view">
+    <router-outlet></router-outlet>
+  </div>
+</main> -->
+<div class="flex">
+  <app-lazy-loaded-image
+    *ngFor="let img of images"
+    [imageSrc]="img"
+    [imageWidth]="360"
+    [imageHeight]="270"
+  ></app-lazy-loaded-image>
+</div>
