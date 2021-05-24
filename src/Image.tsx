@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { RippleLoader } from './Loaders/Ripple/RippleLoader';
 
 interface ImageProps {
@@ -11,13 +11,25 @@ interface ImageProps {
 export function Image({ alt, src, width, height }: ImageProps) {
   const [imageLoading, setImageLoading] = useState<boolean>(true);
   const imageRef = useRef<HTMLImageElement>(null);
+  const isVisibleElementRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
 
   function handleLoadedEvent() {
     setImageLoading(false);
   }
 
+  useEffect(() => {
+    new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      });
+    }).observe(isVisibleElementRef.current as Element);
+  }, []);
+
   return (
-    <>
+    <div ref={isVisibleElementRef}>
       {imageLoading && <RippleLoader width={width} height={height} />}
 
       <img
@@ -26,11 +38,11 @@ export function Image({ alt, src, width, height }: ImageProps) {
           height,
           width,
         }}
-        src={src}
+        src={isVisible ? src : ''}
         alt={alt}
-        className={`image-load ${!imageLoading && 'loaded'}`}
+        className={`image ${!imageLoading && 'loaded'}`}
         onLoad={handleLoadedEvent}
       />
-    </>
+    </div>
   );
 }
