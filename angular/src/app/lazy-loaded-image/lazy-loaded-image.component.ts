@@ -3,7 +3,6 @@ import {
   Component,
   ElementRef,
   Input,
-  NgZone,
   Renderer2,
   ViewChild,
 } from '@angular/core';
@@ -25,7 +24,7 @@ export class LazyLoadedImageComponent implements AfterViewInit {
   @ViewChild('imageTag') imageElement: ElementRef;
   @ViewChild('loadableref') loadableRef: ElementRef;
 
-  constructor(private renderer: Renderer2, private ngZone: NgZone) {
+  constructor(private renderer: Renderer2) {
     this.observer = new IntersectionObserver(
       this.intersectionObserverCallBack,
       {
@@ -45,9 +44,7 @@ export class LazyLoadedImageComponent implements AfterViewInit {
 
   // Helpers
   imageLoadedEvent = () => {
-    this.ngZone.run(() => {
-      this.imageLoaded = true;
-    });
+    this.imageLoaded = true;
     this.imageLoaded = true;
     this.renderer.setStyle(this.imageElement.nativeElement, 'display', 'block');
   };
