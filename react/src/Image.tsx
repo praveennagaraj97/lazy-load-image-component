@@ -19,13 +19,18 @@ export function Image({ alt, src, width, height }: ImageProps) {
   }
 
   useEffect(() => {
-    new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      });
-    }).observe(isVisibleElementRef.current as Element);
+    new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          }
+        });
+      },
+      {
+        threshold: 0.7,
+      }
+    ).observe(isVisibleElementRef.current as Element);
   }, []);
 
   return (
